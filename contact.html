@@ -143,6 +143,46 @@
                                 <button class="btn btn-primary py-3 px-5" type="submit" id="sendMessageButton">Send Message</button>
                             </div>
                         </form>
+                        <script>
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const data = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            subject: document.getElementById("subject").value,
+            message: document.getElementById("message").value
+        };
+
+        fetch("https://sheetdb.io/api/v1/1uta3soel3mkj", {
+            method: "POST",
+            body: JSON.stringify({ data: data }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(json => {
+            document.getElementById("contactForm").reset();
+            document.getElementById("success").innerHTML = `
+                <div class="alert alert-success">
+                    <strong>Message sent!</strong> We'll get back to you shortly.
+                </div>
+            `;
+        })
+        .catch(error => {
+            document.getElementById("success").innerHTML = `
+                <div class="alert alert-danger">
+                    <strong>Sorry!</strong> There was a problem. Please try again later.
+                </div>
+            `;
+            console.error("Error submitting contact form:", error);
+        });
+    });
+</script>
+
+
+
                     </div>
                 </div>
             </div>
